@@ -1,4 +1,4 @@
-Project Demonstration Video Link: [CLick Here](https://drive.google.com/file/d/1rAKUiTeO8gYZRuLauR1kJnXjxQmiFCHp/view?usp=drive_link)
+Project Demonstration Video Link: https://drive.google.com/file/d/1rAKUiTeO8gYZRuLauR1kJnXjxQmiFCHp/view?usp=drive_link
 
 To run this project 
 
