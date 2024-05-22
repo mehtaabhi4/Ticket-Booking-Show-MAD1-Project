@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+
+    {% block title %}Show Booking{% endblock%}
+
+{% block body %}
+    <div class="container-fluid">
+    <div class="d-flex justify-content-end">
+        <a href="/booking_details" style="padding-right: 10px;">Booking Details | </a>
+        <a href="/logout" style="padding-right: 10px;">Logout</a>
+    </div>
+</div>
+
+    <div>
+        {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <div class="alert alert-success alert-dismissible" role="alert">
+                {{message}}
+            </div>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    </div>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Welcome {{ user }} to Ticket Show Booking</h1>
+        <div>
+            <form class="form-inline d-flex justify-content-end" style="padding-left:200px;" method="GET">
+                <div class="form-group">
+                  <input type="text" class="form-control mr-2" name="search_query" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+
+        <div>
+            <h2>Show List</h2>
+            <table class="table table-hover">
+                <tr>
+                    <th>SNo.</th>
+                    <th>Show Name</th>
+                    <th>Description</th>
+                    <th>Show Date</th>
+                    <th>Show Start Time</th>
+                    <th>Show End Time</th>
+                    <th>Rating</th>
+                    <th>Ticket Price</th>
+                    <th>Ticket Available</th>
+                    <th>Venue Name</th>
+                    <th>Place</th>
+                    <th>Screen No</th>
+                    <th>Book Tickets</th>
+                </tr>
+
+                {% if search_list %}
+                {% for row in search_list %}
+                <tr>
+
+                    <td>{{ row.show_id }}</td>
+                    <td>{{ row.show_name }}</td>
+                    <td>{{ row.description }}</td>
+                    <td>{{ row.show_date }}</td>
+                    <td>{{ row.show_start_time }}</td>
+                    <td>{{ row.show_end_time }}</td>
+                    <td>{{ row.rating }}</td>
+                    <td>{{ row.ticket_price }}</td>
+                    <td>{{ row.ticket_available }}</td>
+                    <td>{{ row.venue_name }}</td>
+                    <td>{{ row.place }}</td>
+                    <td>{{ row.no_of_screens }}</td>
+
+                    <td>
+                        <a href="{{ url_for('select_venue', show_id=row.show_id) }}">Book</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                {% for row in shows_list %}
+                <tr>
+
+                    <td>{{ row.show_id }}</td>
+                    <td>{{ row.show_name }}</td>
+                    <td>{{ row.description }}</td>
+                    <td>{{ row.show_date }}</td>
+                    <td>{{ row.show_start_time }}</td>
+                    <td>{{ row.show_end_time }}</td>
+                    <td>{{ row.rating }}</td>
+                    <td>{{ row.ticket_price }}</td>
+                    <td>{{ row.ticket_available }}</td>
+                    <td>{{ row.venue_name }}</td>
+                    <td>{{ row.place }}</td>
+                    <td>{{ row.no_of_screens }}</td>
+
+                    <td>
+                        <a href="{{ url_for('select_venue', show_id=row.show_id) }}">Book</a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+                {% endif %}
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

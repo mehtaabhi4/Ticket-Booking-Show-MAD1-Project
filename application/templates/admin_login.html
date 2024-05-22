@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+    {% block title %}Admin Login{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-4 mb-4">Login Page Only for Admin</h1>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-primary">
+              <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('admin_login') }}" class="mt-4">
+            <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}

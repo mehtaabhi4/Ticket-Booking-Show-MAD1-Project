@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-end">
+    <a href="/logout" style="padding-right: 10px;">Logout</a>
+</div>
+<! -- FLASH MESSAGE -->
+<div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span>
+        </button>
+        {{message}}
+    </div>
+
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+<! -- Design of Add Venue function button and desired feature >
+<div>
+    <div id="mymodal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Venue</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('venue_insert') }}" method="POST">
+                        <div class="form-group">
+                            <label>Venue Name:</label>
+                            <input type="text" class="form-control" name="name" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Place:</label>
+                            <input type="text" class="form-control" name="place" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Capacity:</label>
+                            <input type="number" class="form-control" name="capacity" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>No. Of Screens:</label>
+                            <input type="number" class="form-control" name="no_of_screens" required="1">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Add Venue</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--.........................................INSERT VENUE.............................................-->
+    <div class="container">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+                <h2>Manage <b> Venues </b>
+                    <button type="button" class="btn btn-success float-right" data-toggle="modal"
+                            data-target="#mymodal">Add New Venue
+                    </button>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+
+    <!--.........................................EDIT TABLE .....................................-->
+
+    <table class="table table-hover">
+        <tr>
+
+            <th>SNo.</th>
+            <th>Venue Name</th>
+            <th>Place</th>
+            <th>Capacity</th>
+            <th>Screen No.</th>
+            <th>Action</th>
+        </tr>
+
+        {% for row in venues %}
+
+        <!--.........................................Venue Update EDIT BUTTON FUNCTIONALITIES .....................................-->
+
+
+        <div id="modaledit{{ row.venue_id }}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Update Venue</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('venue_update') }}" method="POST">
+                            <div class="form-group">
+                                <label>Venue Name:</label>
+                                <input type="hidden" name="venue_id" value="{{ row.venue_id }}">
+                                <input type="text" class="form-control" name="name" value="{{ row.venue_name }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Place:</label>
+                                <input type="text" class="form-control" name="place" value="{{ row.place }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Capacity:</label>
+                                <input type="number" class="form-control" name="capacity" value="{{ row.capacity }}">
+                            </div>
+                            <div class="form-group">
+                                <label>No Of Screens:</label>
+                                <input type="number" class="form-control" name="no_of_screens"
+                                       value="{{ row.no_of_screens }}">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Update Venue</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--............................................................-->
+
+        <tr>
+
+            <td>{{ row.venue_id }}</td>
+            <td>{{ row.venue_name }}</td>
+            <td>{{ row.place }}</td>
+            <td>{{ row.capacity }}</td>
+            <td>{{ row.no_of_screens }}</td>
+
+            <td>
+                <a href="/venue_update/{{ row.venue_id }}" class="btn btn-warning btn-xs" data-toggle="modal"
+                   data-target="#modaledit{{ row.venue_id }}">Edit</a>
+                <a href="/venue_delete/{{ row.venue_id }}" class="btn btn-danger btn-xs"
+                   onclick="return confirm('Are You Sure To Delete?')">Delete</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+
+<!--SHOW MANAGEMENT ...........................................................................................................................................................................-->
+
+<! -- Design of Add Show function button and desired feature >
+<div>
+    <div id="showmodal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Show</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('show_insert') }}" method="POST">
+                        <div class="form-group">
+                            <label>Show Name:</label>
+                            <input type="text" class="form-control" name="name" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Show Description:</label>
+                            <input type="text" class="form-control" name="description">
+                        </div>
+                        <div class="form-group">
+                            <label>Show Date:</label>
+                            <input type="date" name="show_date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Show Start Time:</label>
+                            <input type="time" name="show_start_time" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Show End Time:</label>
+                            <input type="time" name="show_end_time" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="form-group">
+                                <label>Rating:</label>
+                                <input type="number" class="form-control" name="rating" required="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Tags:</label>
+                                <input type="text" class="form-control" name="tags" required="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Ticket Price:</label>
+                                <input type="float" class="form-control" name="ticket_price" required="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Venue Id:</label>
+                                <input type="number" class="form-control" name="venue_id" required="1">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Add Show</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+                <h2>Manage <b> Shows </b>
+                    <button type="button" class="btn btn-success float-right" data-toggle="modal"
+                            data-target="#showmodal">Add New Show
+                    </button>
+                </h2>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--.........................................EDIT TABLE .....................................-->
+
+    <table class="table table-hover">
+        <tr>
+
+            <th>SNo.</th>
+            <th>Show Name</th>
+            <th>Show Description</th>
+            <th>Show Date</th>
+            <th>Show Start Time</th>
+            <th>Show End Time</th>
+            <th>Rating</th>
+            <th>Tags</th>
+            <th>Ticket Price</th>
+            <th>Venue Id</th>
+            <th>Action</th>
+        </tr>
+
+        {% for row in shows %}
+
+        <!--.........................................Show Update EDIT BUTTON FUNCTIONALITIES .....................................-->
+
+
+        <div id="showmodaledit{{ row.show_id }}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Update Show</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('show_update') }}" method="POST">
+                            <div class="form-group">
+                                <label>Show Name:</label>
+                                <input type="hidden" name="show_id" value="{{ row.show_id }}">
+                                <input type="text" class="form-control" name="name" value="{{ row.show_name }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Show Description:</label>
+                                <input type="text" class="form-control" name="description"
+                                       value="{{ row.description }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Show Date:</label>
+                                <input type="date" class="form-control" name="show_date" value="{{ row.show_date }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Show Start Time:</label>
+                                <input type="time" class="form-control" name="show_start_time"
+                                       value="{{ row.show_start_time }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Show End Time:</label>
+                                <input type="time" class="form-control" name="show_end_time"
+                                       value="{{ row.show_end_time }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Rating:</label>
+                                <input type="number" class="form-control" name="rating" value="{{ row.rating }}">
+                            </div>
+                            <div class="form-group">
+                                <label>tags:</label>
+                                <input type="text" class="form-control" name="tags" value="{{ row.tags }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Ticket Price:</label>
+                                <input type="float" class="form-control" name="ticket_price"
+                                       value="{{ row.ticket_price }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Venue Id:</label>
+                                <input type="number" class="form-control" name="venue_id" value="{{ row.venue_id }}">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Update Venue</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--............................................................-->
+
+        <tr>
+
+            <td>{{ row.show_id }}</td>
+            <td>{{ row.show_name }}</td>
+            <td>{{ row.description }}</td>
+            <td>{{ row.show_date }}</td>
+            <td>{{ row.show_start_time }}</td>
+            <td>{{ row.show_end_time }}</td>
+            <td>{{ row.rating }}</td>
+            <td>{{ row.tags }}</td>
+            <td>{{ row.ticket_price }}</td>
+            <td>{{ row.venue_id }}</td>
+
+            <td>
+                <a href="/show_update/{{ row.show_id }}" class="btn btn-warning btn-xs" data-toggle="modal"
+                   data-target="#showmodaledit{{ row.show_id }}">Edit</a>
+                <a href="/show_delete/{{ row.show_id }}" class="btn btn-danger btn-xs"
+                   onclick="return confirm('Are You Sure To Delete?')">Delete</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+{% endblock %}
+

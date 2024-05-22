@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+    {% block title %}Ticket Show{% endblock %}
+
+{% block body %}
+
+<img src="static/home_background.jpeg" class="img-fluid">
+
+<div class="container">
+    <h1 class="mt-4">Welcome to Ticket Booking Show</h1>
+    <p class="text-justify">Welcome to our ticket show booking website!
+        Here, you can easily search and book tickets for your favorite shows happening,
+        from a wide range of venues and show timings to cater to all your entertainment needs.
+        Our user-friendly interface allows you to browse through the available options, select your preferred showtime.
+        Book your tickets now and get ready to be entertained!</p>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Login System</h2>
+                        <a href="{{url_for('login')}}" class="btn btn-primary">Login Page</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Register System</h2>
+                        <a href="{{url_for('register')}}" class="btn btn-primary">Register Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<img src="static/home_background.jpeg" class="img-fluid">
+
+{% endblock %}

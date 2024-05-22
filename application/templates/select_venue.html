@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+    {% block title %}Venue Booking{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+    <div class="d-flex justify-content-end">
+        <a href="/ticket_booking_page" style="padding-right: 10px;">Home</a>
+        <a href="/booking_details" style="padding-right: 10px;">Booking Details</a>
+        <a href="/logout" style="padding-right: 10px;">Logout</a>
+
+    </div>
+
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Ticket Show Booking</h1>
+        <div>
+            <h2>Venue List</h2>
+            <table class="table table-hover">
+                <tr>
+                    <th>SNo.</th>
+                    <th>Venue Name</th>
+                    <th>Address</th>
+                    <th>Capacity</th>
+                    <th>No of Screens</th>
+                </tr>
+                {% for row in venue_list %}
+
+                <form action="{{ url_for('book_ticket', venue_id=row.venue_id, show_id=show_id) }}" method="POST">
+                  <div class="form-group">
+                    <label for="tickets" class="mr-3">Number of Tickets:</label>
+                    <input type="number" name="tickets" id="tickets" min="1" max="{{ row.capacity }}" class="form-control mr-3">
+                    <button type="submit" class="btn btn-primary" onclick="return confirm('Confirm to Book Tickets?')">Book</button>
+                  </div>
+                </form>
+
+
+                <tr>
+
+                    <td>{{ row.venue_id }}</td>
+                    <td>{{ row.venue_name }}</td>
+                    <td>{{ row.place }}</td>
+                    <td>{{ row.capacity }}</td>
+                    <td>{{ row.no_of_screens }}</td>
+                </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+
+    </div>
+    </div>
+{% endblock %}
